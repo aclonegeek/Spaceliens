@@ -9,7 +9,7 @@ public:
 	void load(const std::string& filename) {
 		if (!m_texture.loadFromFile("graphics/sprite/" + filename)) {
 			throw std::runtime_error("Entity::load - Failed to load " + filename);
-		 }
+		}
 		setTexture(m_texture);
 	}
 

@@ -12,7 +12,7 @@ void EntityManager::update(const sf::Time& dt) {
 	for (auto& entity : m_entities) {
 		if (entity.second->isActive()) {
 			entity.second->update(dt);
-		}  else {
+		} else {
 			m_entitiesToRemove.push_back(entity.first);
 			remove();
 		}
@@ -24,7 +24,6 @@ void EntityManager::remove() {
 		auto& found = m_entities.find(entity);
 		m_entities.erase(found);
 	}
-
 	m_entitiesToRemove.clear();
 }
 
