@@ -1,6 +1,7 @@
 #pragma once
-#include "State.hpp"
 #include "StateManager.hpp"
+#include "EntityManager.hpp"
+#include "Player.hpp"
 
 class GameState : public State {
 public:
@@ -12,4 +13,8 @@ public:
 	void processEvents();
 	void update(sf::Time dt);
 	void draw();
+private:
+	EntityManager m_entityManager;
+
+	std::unique_ptr<Player> m_player;
 };
