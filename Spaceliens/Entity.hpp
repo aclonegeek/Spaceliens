@@ -7,7 +7,7 @@ public:
 	Entity() {}
 
 	void load(const std::string& filename) {
-		if (!m_texture.loadFromFile("graphics/sprite/" + filename)) {
+		if (!m_texture.loadFromFile("graphics/sprites/" + filename)) {
 			throw std::runtime_error("Entity::load - Failed to load " + filename);
 		}
 		setTexture(m_texture);
