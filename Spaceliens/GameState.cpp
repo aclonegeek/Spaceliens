@@ -8,6 +8,19 @@ GameState::GameState(StateManager& stateManager, sf::RenderWindow& window)
 	, m_player{ std::make_unique<Player>(static_cast<sf::Vector2f>(m_window.getSize())) } {
 	std::cout << "[GameState] Initialized" << std::endl;
 
+	int enemies = 3;
+
+	float x = 200.0f, y = window.getSize().y / 2.0f;
+	
+	for (int i = 0; i < enemies; i++) {
+		std::unique_ptr<Enemy> enemy(new Enemy(static_cast<sf::Vector2f>(window.getSize()), { x, y }));
+		std::unique_ptr<Enemy> enemyCopy(new Enemy(static_cast<sf::Vector2f>(window.getSize()), { x, y }));
+		m_enemies.push_back(std::move(enemy));
+		x += 50.0f;
+
+		m_entityManager.add("Enemy" + std::to_string(i), std::move(enemyCopy));
+	}
+
 	m_entityManager.add("Player", std::move(m_player));
 }
 

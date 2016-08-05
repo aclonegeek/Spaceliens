@@ -18,5 +18,5 @@ private:
 	EntityManager m_entityManager;
 
 	std::unique_ptr<Player> m_player;
-	std::unique_ptr<Enemy> m_enemy;
+	std::vector<std::unique_ptr<Enemy>> m_enemies;
 };

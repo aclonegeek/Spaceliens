@@ -1,11 +1,11 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy(sf::Vector2f windowSize)
+Enemy::Enemy(sf::Vector2f windowSize, sf::Vector2f position)
 	: m_windowSize{ windowSize } {
 	active = 1;
 	type = "Enemy";
 	load("enemy.png");
-	setPosition(m_windowSize.x / 2.0f - getGlobalBounds().width / 2.0f, m_windowSize.y / 2.0f - getGlobalBounds().height / 2.0f);
+	setPosition(position);
 }
 
 void Enemy::update(const sf::Time& dt) {
