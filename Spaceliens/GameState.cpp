@@ -14,11 +14,8 @@ GameState::GameState(StateManager& stateManager, sf::RenderWindow& window)
 	
 	for (int i = 0; i < enemies; i++) {
 		std::unique_ptr<Enemy> enemy(new Enemy(static_cast<sf::Vector2f>(window.getSize()), { x, y }));
-		std::unique_ptr<Enemy> enemyCopy(new Enemy(static_cast<sf::Vector2f>(window.getSize()), { x, y }));
-		m_enemies.push_back(std::move(enemy));
 		x += 50.0f;
-
-		m_entityManager.add("Enemy" + std::to_string(i), std::move(enemyCopy));
+		m_entityManager.add("Enemy" + std::to_string(i), std::move(enemy));
 	}
 
 	m_entityManager.add("Player", std::move(m_player));
