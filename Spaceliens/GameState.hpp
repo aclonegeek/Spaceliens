@@ -2,6 +2,7 @@
 #include "StateManager.hpp"
 #include "EntityManager.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 
 class GameState : public State {
 public:
@@ -17,4 +18,5 @@ private:
 	EntityManager m_entityManager;
 
 	std::unique_ptr<Player> m_player;
+	std::unique_ptr<Enemy> m_enemy;
 };
