@@ -5,7 +5,7 @@
 GameState::GameState(StateManager& stateManager, sf::RenderWindow& window)
 	: State{ stateManager, window }
 	, m_entityManager{ m_window }
-	, m_player{ std::make_unique<Player>(static_cast<sf::Vector2f>(m_window.getSize())) } {
+	, m_player{ std::make_unique<Player>(m_entityManager, static_cast<sf::Vector2f>(m_window.getSize())) } {
 	std::cout << "[GameState] Initialized" << std::endl;
 
 	int enemies = 3;

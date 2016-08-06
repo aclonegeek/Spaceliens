@@ -1,9 +1,13 @@
+#include <memory>
 #include "Player.hpp"
+#include "Projectile.hpp"
 
-Player::Player(sf::Vector2f windowSize)
-	: m_windowSize{ windowSize } {
+Player::Player(EntityManager& entityManager, sf::Vector2f windowSize)
+	: m_windowSize{ windowSize } 
+	, m_entityManager{ entityManager }
+	, m_bulletCount{ 0 } {
 	active = 1;
-	type = "player";
+	type = "Player";
 	load("player.png");
 	setPosition(m_windowSize.x / 2.0f - getGlobalBounds().width / 2.0f, m_windowSize.y - getGlobalBounds().height - 10.0f);
 }
@@ -16,6 +20,15 @@ void Player::handleInput(const sf::Time& dt) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		move(m_speed * dt.asSeconds(), 0.0f);
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_spaceKey) {
+		sf::Vector2f position = getPosition();
+		position.x += getGlobalBounds().width / 2.0f - 4.0f;
+
+		std::unique_ptr<Projectile> projectile(new Projectile(m_windowSize, position, true));
+		m_entityManager.add("PlayerProjectile" + std::to_string(m_bulletCount), std::move(projectile));
+		m_bulletCount++;
+	}
 }
 
 void Player::update(const sf::Time& dt) {
@@ -26,6 +39,8 @@ void Player::update(const sf::Time& dt) {
 	} else if (getPosition().x + getGlobalBounds().width > m_windowSize.x) {
 		move(-m_speed * dt.asSeconds(), 0.0f);
 	}
+
+	m_spaceKey = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 
 	Entity::update(dt);
 }
