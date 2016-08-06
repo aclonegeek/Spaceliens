@@ -13,6 +13,10 @@ public:
 		setTexture(m_texture);
 	}
 
+	void destroy() {
+		active = 0;
+	}
+
 	bool checkCollision(Entity& entity) {
 		return getGlobalBounds().intersects(entity.getGlobalBounds());
 	}
