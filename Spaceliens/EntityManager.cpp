@@ -15,6 +15,7 @@ void EntityManager::update(const sf::Time& dt) {
 		} else {
 			m_entitiesToRemove.push_back(entity.first);
 			remove();
+			break;
 		}
 	}
 }
