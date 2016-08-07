@@ -1,5 +1,4 @@
 #pragma once
-#include "Entity.hpp"
 #include "EntityManager.hpp"
 
 class Player : public Entity {
