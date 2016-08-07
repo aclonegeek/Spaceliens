@@ -23,5 +23,6 @@ void Projectile::update(const sf::Time& dt) {
 }
 
 void Projectile::collision(Entity& entity) {
-
+	destroy();
+	entity.destroy();
 }

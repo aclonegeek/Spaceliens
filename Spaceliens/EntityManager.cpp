@@ -1,5 +1,7 @@
 #include "EntityManager.hpp"
 
+#include <iostream> // remove later
+
 EntityManager::EntityManager(sf::RenderWindow& window)
 	: m_window{ window } {
 }
@@ -10,6 +12,18 @@ void EntityManager::add(const std::string& name, std::unique_ptr<Entity> entity)
 
 void EntityManager::update(const sf::Time& dt) {
 	for (auto& entity : m_entities) {
+		if (entity.second->getType() == "PlayerProjectile") {
+			for (auto& entity2 : m_entities) {
+				if (entity.first != entity2.first && entity2.second->getType() != "Player") {
+					if (entity.second->checkCollision(*entity2.second)) {
+						entity.second->collision(*entity2.second);
+						//std::cout << entity.second->getType() << std::endl;
+						//std::cout << entity2.second->getType() << std::endl;
+					}
+				}
+			}
+		}
+
 		if (entity.second->isActive()) {
 			entity.second->update(dt);
 		} else {
