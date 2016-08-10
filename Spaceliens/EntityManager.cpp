@@ -39,10 +39,7 @@ void EntityManager::update(const sf::Time& dt) {
 }
 
 bool EntityManager::exists(const std::string& name) {
-	if (m_entities.find(name) != m_entities.end())
-		return true;
-	else
-		return false;
+	return m_entities.find(name) != m_entities.end();
 }
 
 void EntityManager::remove() {
