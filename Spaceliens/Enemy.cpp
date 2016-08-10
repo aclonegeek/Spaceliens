@@ -1,10 +1,12 @@
+#include <memory>
 #include "Enemy.hpp"
+#include "Projectile.hpp"
 
-#include <iostream>
-
-Enemy::Enemy(sf::Vector2f windowSize, sf::Vector2f position)
-	: m_windowSize{ windowSize }
-	, m_moveDown{ false } {
+Enemy::Enemy(EntityManager& entityManager, sf::Vector2f windowSize, sf::Vector2f position)
+	: m_entityManager{ entityManager }
+	, m_windowSize{ windowSize }
+	, m_moveDown{ false }
+	, m_bulletCount{ 0 } {
 	active = 1;
 	type = "Enemy";
 	load("enemy.png");
@@ -28,8 +30,22 @@ void Enemy::movement(const sf::Time& dt) {
 	}
 }
 
+void Enemy::shoot() {
+	int roll = rand() % 99;
+
+	if (roll == 69) {
+		sf::Vector2f position = getPosition();
+		position.x += getGlobalBounds().width / 2.0f + 10.0f;
+
+		std::unique_ptr<Projectile> projectile(new Projectile(m_windowSize, position, false));
+		m_entityManager.add("EnemyProjectile" + std::to_string(m_bulletCount), std::move(projectile));
+		m_bulletCount++;
+	}
+}
+
 void Enemy::update(const sf::Time& dt) {
 	movement(dt);
+	shoot();
 	Entity::update(dt);
 }
 

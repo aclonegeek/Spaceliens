@@ -13,7 +13,7 @@ GameState::GameState(StateManager& stateManager, sf::RenderWindow& window)
 	float x = 200.0f, y = window.getSize().y / 2.0f;
 	
 	for (int i = 0; i < enemies; i++) {
-		std::unique_ptr<Enemy> enemy(new Enemy(static_cast<sf::Vector2f>(window.getSize()), { x, y }));
+		std::unique_ptr<Enemy> enemy(new Enemy(m_entityManager, static_cast<sf::Vector2f>(window.getSize()), { x, y }));
 		x += 50.0f;
 		m_entityManager.add("Enemy" + std::to_string(i), std::move(enemy));
 	}
@@ -43,6 +43,11 @@ void GameState::processEvents() {
 					m_stateManager.quit();
 					break;
 			}
+		}
+
+		if (!m_entityManager.exists("Player")) {
+			std::cout << "GAME OVER" << std::endl;
+			//todo: add game over screen
 		}
 	}
 }
