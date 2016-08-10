@@ -10,6 +10,7 @@ public:
 	EntityManager(sf::RenderWindow& window);
 
 	void add(const std::string& name, std::unique_ptr<Entity> entity);
+	bool exists(const std::string& name);
 	void remove();
 	void update(const sf::Time& dt);
 	void draw();

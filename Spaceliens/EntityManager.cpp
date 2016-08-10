@@ -1,7 +1,5 @@
 #include "EntityManager.hpp"
 
-#include <iostream> // remove later
-
 EntityManager::EntityManager(sf::RenderWindow& window)
 	: m_window{ window } {
 }
@@ -17,8 +15,14 @@ void EntityManager::update(const sf::Time& dt) {
 				if (entity.first != entity2.first && entity2.second->getType() != "Player") {
 					if (entity.second->checkCollision(*entity2.second)) {
 						entity.second->collision(*entity2.second);
-						//std::cout << entity.second->getType() << std::endl;
-						//std::cout << entity2.second->getType() << std::endl;
+					}
+				}
+			}
+		} else if (entity.second->getType() == "EnemyProjectile") {
+			for (auto& entity2 : m_entities) {
+				if (entity.first != entity2.first && entity2.second->getType() != "Enemy") {
+					if (entity.second->checkCollision(*entity2.second)) {
+						entity.second->collision(*entity2.second);
 					}
 				}
 			}
@@ -32,6 +36,13 @@ void EntityManager::update(const sf::Time& dt) {
 			break;
 		}
 	}
+}
+
+bool EntityManager::exists(const std::string& name) {
+	if (m_entities.find(name) != m_entities.end())
+		return true;
+	else
+		return false;
 }
 
 void EntityManager::remove() {
