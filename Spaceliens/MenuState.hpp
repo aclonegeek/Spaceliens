@@ -11,4 +11,7 @@ public:
 	void processEvents();
 	void update(sf::Time dt);
 	void draw();
+private:
+	sf::Font m_font;
+	sf::Text m_text;
 };

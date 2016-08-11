@@ -7,6 +7,7 @@
 GameOverState::GameOverState(StateManager& stateManager, sf::RenderWindow& window)
 	: State{ stateManager, window } {
 	std::cout << "[GameOverState] Initialized" << std::endl;
+
 	m_font.loadFromFile("graphics/arial.ttf");
 	m_text.setFont(m_font);
 	m_text.setColor(sf::Color::Red);
