@@ -1,6 +1,5 @@
 #pragma once
 #include "StateManager.hpp"
-#include "EntityManager.hpp"
 
 class GameOverState : public State {
 public:
