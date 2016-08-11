@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GameState.hpp"
+#include "GameOverState.hpp"
 
 GameState::GameState(StateManager& stateManager, sf::RenderWindow& window)
 	: State{ stateManager, window }
@@ -30,6 +31,12 @@ void GameState::resume() {
 }
 
 void GameState::processEvents() {
+	// If the player is killed, present the game over screen
+	if (!m_entityManager.exists("Player")) {
+		std::unique_ptr<GameOverState> gameOver(new GameOverState(m_stateManager, m_window));
+		m_stateManager.stateToChangeTo(std::move(gameOver));
+	}
+
 	sf::Event event;
 
 	while (m_window.pollEvent(event)) {
@@ -43,11 +50,6 @@ void GameState::processEvents() {
 					m_stateManager.quit();
 					break;
 			}
-		}
-
-		if (!m_entityManager.exists("Player")) {
-			std::cout << "GAME OVER" << std::endl;
-			//todo: add game over screen
 		}
 	}
 }
