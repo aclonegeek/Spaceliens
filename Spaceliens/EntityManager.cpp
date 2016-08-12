@@ -10,7 +10,7 @@ void EntityManager::add(const std::string& name, std::unique_ptr<Entity> entity)
 
 void EntityManager::update(const sf::Time& dt) {
 	for (auto& entity : m_entities) {
-		if (entity.second->getType() == "PlayerProjectile") {
+		if (entity.second->getType() == "PlayerProjectile") { // Player projectile collision
 			for (auto& entity2 : m_entities) {
 				if (entity.first != entity2.first && entity2.second->getType() != "Player") {
 					if (entity.second->checkCollision(*entity2.second)) {
@@ -18,9 +18,17 @@ void EntityManager::update(const sf::Time& dt) {
 					}
 				}
 			}
-		} else if (entity.second->getType() == "EnemyProjectile") {
+		} else if (entity.second->getType() == "EnemyProjectile") { // Enemy projectile collision
 			for (auto& entity2 : m_entities) {
 				if (entity.first != entity2.first && entity2.second->getType() != "Enemy") {
+					if (entity.second->checkCollision(*entity2.second)) {
+						entity.second->collision(*entity2.second);
+					}
+				}
+			}
+		} else if (entity.second->getType() == "Player") { // Player-Enemy collision
+			for (auto& entity2 : m_entities) {
+				if (entity.first != entity2.first && entity2.second->getType() == "Enemy") {
 					if (entity.second->checkCollision(*entity2.second)) {
 						entity.second->collision(*entity2.second);
 					}
