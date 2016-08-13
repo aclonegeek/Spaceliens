@@ -13,7 +13,7 @@ public:
 		setTexture(m_texture);
 	}
 
-	void destroy() {
+	virtual void destroy() {
 		active = 0;
 	}
 
