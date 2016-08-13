@@ -2,11 +2,18 @@
 #include "Enemy.hpp"
 #include "Projectile.hpp"
 
-Enemy::Enemy(EntityManager& entityManager, sf::Vector2f windowSize, sf::Vector2f position)
+Enemy::Enemy(EntityManager& entityManager, sf::Vector2f windowSize, sf::Vector2f position,
+	sf::Sound& shootSound, sf::Sound& explosionSound, sf::SoundBuffer& shootSoundBuffer,
+	sf::SoundBuffer& explosionSoundBuffer, int& enemyCount)
 	: m_entityManager{ entityManager }
 	, m_windowSize{ windowSize }
+	, m_shootSound{ shootSound }
+	, m_shootSoundBuffer{ shootSoundBuffer }
+	, m_explosionSound{ explosionSound }
+	, m_explosionSoundBuffer{ explosionSoundBuffer }
 	, m_moveDown{ false }
-	, m_bulletCount{ 0 } {
+	, m_bulletCount{ 0 } 
+	, m_enemyCount{ enemyCount } {
 	active = 1;
 	type = "Enemy";
 	load("enemy.png");
@@ -40,6 +47,8 @@ void Enemy::shoot() {
 		std::unique_ptr<Projectile> projectile(new Projectile(m_windowSize, position, false));
 		m_entityManager.add("EnemyProjectile" + std::to_string(m_bulletCount), std::move(projectile));
 		m_bulletCount++;
+
+		m_shootSound.play();
 	}
 }
 
@@ -50,5 +59,12 @@ void Enemy::update(const sf::Time& dt) {
 }
 
 void Enemy::collision(Entity& entity) {
+	destroy();
+	entity.destroy();
+}
 
+void Enemy::destroy() {
+	m_explosionSound.play();
+	m_enemyCount--;
+	active = 0;
 }

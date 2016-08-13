@@ -10,6 +10,14 @@ Player::Player(EntityManager& entityManager, sf::Vector2f windowSize)
 	type = "Player";
 	load("player.png");
 	setPosition(m_windowSize.x / 2.0f - getGlobalBounds().width / 2.0f, m_windowSize.y - getGlobalBounds().height - 10.0f);
+
+	m_shootSoundBuffer.loadFromFile("audio/shoot.wav");
+	m_shootSound.setBuffer(m_shootSoundBuffer);
+	m_shootSound.setVolume(20.0f);
+
+	m_explosionSoundBuffer.loadFromFile("audio/explosion.wav");
+	m_explosionSound.setBuffer(m_explosionSoundBuffer);
+	m_explosionSound.setVolume(20.0f);
 }
 
 void Player::handleInput(const sf::Time& dt) {
@@ -28,6 +36,8 @@ void Player::handleInput(const sf::Time& dt) {
 		std::unique_ptr<Projectile> projectile(new Projectile(m_windowSize, position, true));
 		m_entityManager.add("PlayerProjectile" + std::to_string(m_bulletCount), std::move(projectile));
 		m_bulletCount++;
+
+		m_shootSound.play();
 	}
 }
 
@@ -46,5 +56,11 @@ void Player::update(const sf::Time& dt) {
 }
 
 void Player::collision(Entity& entity) {
+	destroy();
+	entity.destroy();
+}
 
+void Player::destroy() {
+	m_explosionSound.play();
+	active = 0;
 }
